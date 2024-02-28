@@ -7,7 +7,7 @@ const CheckboxGroup = Checkbox.Group;
 function Page() {
     const [firstName, setFirstName] = useState('');
     const [editable, setEditable] = useState(false);
-    const [proficientReact, setProficientReact] = useState(false);
+    const [proficientReact, setProficientReact] = useState(null);
     const [tools, setTools] = useState({
         redux: false,
         lodash: false,
