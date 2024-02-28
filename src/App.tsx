@@ -13,9 +13,9 @@ const App: React.FC = () => (
             colorPrimaryBg: '#6B47ED',
           },
           Switch: {
-            handleShadow: '0 2px 4px 0 rgba(0, 35, 11, 0.1)',
+            handleShadow: '0 2px 2px 0 rgba(0, 35, 11, 0.1)',
             handleSize: 13,
-            trackPadding: 4,
+            trackPadding: 4.5,
           }
         },
       }}
