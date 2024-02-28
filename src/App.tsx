@@ -1,26 +1,27 @@
+import { ConfigProvider } from 'antd';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Page from './components/Page';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#6B47ED',
+        },
+        components: {
+          Radio: {
+            colorPrimaryBg: '#6B47ED',
+          },
+          Switch: {
+            handleShadow: '0 2px 4px 0 rgba(0, 35, 11, 0.1)',
+            handleSize: 13,
+            trackPadding: 4,
+          }
+        },
+      }}
+    >
+    <Page />
+  </ConfigProvider>
+);
 
 export default App;
