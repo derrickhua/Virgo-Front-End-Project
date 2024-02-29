@@ -30,7 +30,7 @@ function Page() {
         label: key,
         value,
       }));
-    console.log(toolsUsed)
+
     const checkboxChange = (e: any) => {
         const value = e.target.value;
         const checked = e.target.checked;
