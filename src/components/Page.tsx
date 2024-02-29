@@ -4,30 +4,44 @@ import FloatLabel from './FloatingLabel';
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
 
+enum Tool {
+    Redux = "0",
+    Lodash = "1",
+    AntDesign = "2",
+    Webpack = "3",
+    Other = "4",
+}
+
 function Page() {
     const [firstName, setFirstName] = useState('');
     const [editable, setEditable] = useState(false);
-    const [proficientReact, setProficientReact] = useState(null);
-    const [tools, setTools] = useState({
-        redux: false,
-        lodash: false,
-        antDesign: false,
-        webpack: false,
-        other: false,
-    });
+    const [isProficient, setProficient] = useState(null);
+    const [toolsUsed, setToolsUsed] = useState("");
 
     const toggleEditable = () => {
         setEditable(!editable);
     };
 
     const changeProficientReact = (e: RadioChangeEvent) => {
-        setProficientReact(e.target.value);
+        setProficient(e.target.value);
     };
 
-    const checkboxChange = (e:any) => {
-        const { value, checked } = e.target;
-        setTools(prevSkills => ({ ...prevSkills, [value]: checked }));
-    };
+    const toolOptions = Object.entries(Tool).map(([key, value]) => ({
+        label: key,
+        value,
+      }));
+    console.log(toolsUsed)
+    const checkboxChange = (e: any) => {
+        const value = e.target.value;
+        const checked = e.target.checked;
+        const currentTools = toolsUsed.split(",").filter(t => t); 
+      
+        if (checked && !currentTools.includes(value)) {
+          setToolsUsed([...currentTools, value].join(","));
+        } else if (!checked && currentTools.includes(value)) {
+          setToolsUsed(currentTools.filter(t => t !== value).join(","));
+        }
+      };
 
     const radioStyle = {
         display: 'flex',
@@ -54,27 +68,28 @@ function Page() {
             </FloatLabel>
             <div className='reactProficiency'>
                 <p className='text-[18px] font-bold mb-[8px]'>Are you proficient in ReactJS development?</p>
-                    <RadioGroup onChange={changeProficientReact} value={proficientReact} disabled={!editable}>
-                        <Radio className='mb-[8px]' style={{ ...radioStyle, color: proficientReact === false ? '#979797' : '' }} value={false}>No</Radio>
-                        <Radio style={{ ...radioStyle, color: proficientReact === true ? '#979797' : '' }} value={true}>Yes</Radio>
+                    <RadioGroup onChange={changeProficientReact} value={isProficient} disabled={!editable}>
+                        <Radio className='mb-[8px]' style={{ ...radioStyle, color: isProficient === false ? '#979797' : '' }} value={false}>No</Radio>
+                        <Radio style={{ ...radioStyle, color: isProficient === true ? '#979797' : '' }} value={true}>Yes</Radio>
                     </RadioGroup>
             </div>
             <div className='toolsSelection'>
                 <p className='text-[18px] font-bold'>Which tools do you use?</p>
                 <p className='text-[16px] text-gray-400 mb-[8px]'>Please select all that apply.</p>
                 <div className='flex flex-col'>
-                    <CheckboxGroup className='w-full flex flex-col'  disabled={!editable}>
-                        {Object.entries(tools).map(([skill, isChecked]) => (
-                            <Checkbox 
-                                className={`text-[16px] mb-[8px] ${!isChecked ? 'text-[#979797]' : ""}`}
-                                key={skill} 
-                                value={skill} 
-                                checked={isChecked} 
-                                onChange={checkboxChange}>
-                                {skill.charAt(0).toUpperCase() + skill.slice(1)} {/* Capitalize the label */}
-                            </Checkbox>
-                        ))}
-                    </CheckboxGroup>
+                <CheckboxGroup className='w-full flex flex-col' disabled={!editable}>
+                    {toolOptions.map(({ label, value }) => (
+                        <Checkbox
+                        className="text-[16px] mb-[8px]"
+                        key={value}
+                        value={value}
+                        checked={toolsUsed.split(",").includes(value)}
+                        onChange={checkboxChange}
+                        >
+                        {label}
+                        </Checkbox>
+                    ))}
+                </CheckboxGroup>
                 </div>
             </div>
             <Button className="mt-[20px] self-center w-[200px] h-[57px] bg-[#6B47ED] rounded-full text-white text-[18px]" 
